@@ -12,7 +12,11 @@ anyhow = { version = "1.0.40", default-features = false }
 libipld-core = { version = "0.14.0", path = "../core" }
 prost = "0.11.0"
 thiserror = "1.0.25"
+multihash = "0.17.0"
+
 
 [dev-dependencies]
 libipld-macro = { path = "../macro" }
-multihash = { ssh = "ssh://git@gitlab.com:ColombaLink/dev/dapsi/public/dybli/core/deps/multihash.git"}
+
+[patch.crates-io]
+multihash = { git = "https://github.com/timoCasti/multihash.git"}

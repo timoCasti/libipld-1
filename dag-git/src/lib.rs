@@ -7,6 +7,7 @@ use libipld_core::error::{Result, UnsupportedCodec};
 use std::io::{Read, Seek, Write};
 use libipld_core::ipld::Ipld;
 
+use multihash::{Code, Hasher, Sha1};
 
 
 /// Git codec.
@@ -35,7 +36,15 @@ impl TryFrom<u64> for GitCodec {
 
 impl Encode<GitCodec> for [u8] {
     fn encode<W: Write>(&self, _: GitCodec, w: &mut W) -> Result<()> {
-        w.write_all(self).map_err(anyhow::Error::msg)
+
+        //
+        // let mut hasher = Sha1::default();
+        // hasher.update(b"hello world");
+        // let digest = hasher.finalize();
+        // let hash = Code::Sha1.wrap(digest).unwrap();
+//        let hash2 = Code::Sha1.digest(self);
+        w.write_all(self).map_err(anyhow::Error::msg)?;
+        Ok(())
     }
 }
 /*
@@ -50,6 +59,7 @@ impl Encode<GitCodec> for Box<[u8]> {
 
 impl Encode<GitCodec> for Vec<u8> {
     fn encode<W: Write>(&self, _: GitCodec, w: &mut W) -> Result<()> {
+
         w.write_all(&self[..]).map_err(anyhow::Error::msg)
     }
 }
@@ -80,6 +90,7 @@ impl Decode<GitCodec> for Vec<u8> {
     fn decode<R: Read + Seek>(_: GitCodec, r: &mut R) -> Result<Self> {
         let mut buf = vec![];
         r.read_to_end(&mut buf).map_err(anyhow::Error::msg)?;
+        //let dec = Code::Sha1::digest();
         Ok(buf)
     }
 }
