@@ -97,8 +97,8 @@ pub trait Store: Clone + Send + Sync {
 
     /// Resolves a path recursively and returns the ipld.
     async fn query(&self, path: &DagPath<'_>) -> Result<Ipld>
-    where
-        Ipld: Decode<<Self::Params as StoreParams>::Codecs>,
+        where
+            Ipld: Decode<<Self::Params as StoreParams>::Codecs>,
     {
         let mut ipld = self.fetch(path.root()).await?.ipld()?;
         for segment in path.path().iter() {
